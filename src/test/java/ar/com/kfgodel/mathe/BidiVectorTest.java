@@ -2,10 +2,10 @@ package ar.com.kfgodel.mathe;
 
 import ar.com.dgarcia.javaspec.api.JavaSpec;
 import ar.com.dgarcia.javaspec.api.JavaSpecRunner;
+import ar.com.kfgodel.mathe.api.ScalarMutabilityType;
 import org.junit.runner.RunWith;
 
-import static ar.com.kfgodel.mathe.api.Mathe.scalar;
-import static ar.com.kfgodel.mathe.api.Mathe.vector;
+import static ar.com.kfgodel.mathe.api.Mathe.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -64,6 +64,22 @@ public class BidiVectorTest extends JavaSpec<MatheTestContext> {
           assertThat(context().vector()).isEqualTo(vector(1.0, 7.0));
           assertThat(context().vector()).isNotEqualTo(vector(2.0, 7.0));
           assertThat(context().vector()).isNotEqualTo(vector(1.0, 8.0));
+        });
+      });
+
+      describe("mutability", ()->{
+        it("is mutable if any of the components is mutable", ()->{
+          assertThat(vector(()-> 1.0, ()-> 2.0).mutability())
+            .isEqualTo(ScalarMutabilityType.MUTABLE);
+          assertThat(vector(()-> 1.0, scalar(2.0)).mutability())
+            .isEqualTo(ScalarMutabilityType.MUTABLE);
+          assertThat(vector(scalar(()-> 1.0), ()-> 2.0).mutability())
+            .isEqualTo(ScalarMutabilityType.MUTABLE);
+        });
+        it("is immutable if both components are immutable", ()->{
+          assertThat(vector(scalar(1.0), scalar(2.0)).mutability()).isEqualTo(ScalarMutabilityType.IMMUTABLE);
+          assertThat(vector(lazyScalar(()-> 1.0), lazyScalar(()-> 2.0)).mutability())
+            .isEqualTo(ScalarMutabilityType.IMMUTABLE);
         });
       });
 

@@ -1,13 +1,12 @@
 package ar.com.kfgodel.mathe.api;
 
-import java.text.Bidi;
 import java.util.function.Supplier;
 
 /**
  * This type represents a bi dimensional vector, composed of 2 scalars
  * Created by tenpines on 03/01/16.
  */
-public interface BidiVector extends Supplier<BidiVector> {
+public interface BidiVector extends Supplier<BidiVector>, Value {
   /**
    * @return The first component of this vector
    */

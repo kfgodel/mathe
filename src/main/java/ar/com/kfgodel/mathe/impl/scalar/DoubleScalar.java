@@ -1,6 +1,6 @@
 package ar.com.kfgodel.mathe.impl.scalar;
 
-import ar.com.kfgodel.mathe.api.Scalar;
+import ar.com.kfgodel.mathe.api.ScalarMutabilityType;
 
 /**
  * Constant value scalar based on a primitive double
@@ -19,5 +19,10 @@ public class DoubleScalar extends ScalarSupport {
     DoubleScalar scalar = new DoubleScalar();
     scalar.value = value;
     return scalar;
+  }
+
+  @Override
+  public ScalarMutabilityType mutability() {
+    return ScalarMutabilityType.IMMUTABLE;
   }
 }

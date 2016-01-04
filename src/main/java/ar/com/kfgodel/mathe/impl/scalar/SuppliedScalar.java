@@ -1,6 +1,6 @@
 package ar.com.kfgodel.mathe.impl.scalar;
 
-import ar.com.kfgodel.mathe.api.Scalar;
+import ar.com.kfgodel.mathe.api.ScalarMutabilityType;
 
 import java.util.function.DoubleSupplier;
 
@@ -21,5 +21,10 @@ public class SuppliedScalar extends ScalarSupport {
     SuppliedScalar scalar = new SuppliedScalar();
     scalar.supplier = supplier;
     return scalar;
+  }
+
+  @Override
+  public ScalarMutabilityType mutability() {
+    return ScalarMutabilityType.MUTABLE;
   }
 }

@@ -8,7 +8,7 @@ import java.util.function.Supplier;
  * Created by tenpines on 03/01/16.
  */
 @FunctionalInterface
-public interface Scalar extends DoubleSupplier, Supplier<Scalar> {
+public interface Scalar extends DoubleSupplier, Supplier<Scalar>, Value {
   /**
    * Returns the primitive representation of this scalar current value
    * @return The current double value
@@ -25,4 +25,11 @@ public interface Scalar extends DoubleSupplier, Supplier<Scalar> {
     return this;
   }
 
+  /**
+   * Indicates the value mutability of this scalar
+   * @return An enum indicating the mutability of this instance
+   */
+  default ScalarMutabilityType mutability(){
+    return ScalarMutabilityType.MUTABLE;
+  };
 }

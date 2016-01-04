@@ -5,6 +5,7 @@ import ar.com.dgarcia.javaspec.api.JavaSpecRunner;
 import ar.com.dgarcia.javaspec.api.Variable;
 import ar.com.kfgodel.mathe.api.Mathe;
 import ar.com.kfgodel.mathe.api.Scalar;
+import ar.com.kfgodel.mathe.api.ScalarMutabilityType;
 import org.junit.runner.RunWith;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -15,6 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @RunWith(JavaSpecRunner.class)
 public class ScalarTest extends JavaSpec<MatheTestContext> {
+
   @Override
   public void define() {
     describe("a scalar value", ()->{
@@ -29,13 +31,17 @@ public class ScalarTest extends JavaSpec<MatheTestContext> {
           assertThat(context().scalar().asDouble()).isEqualTo(2.0);
           assertThat(context().scalar().asDouble()).isEqualTo(2.0);
         });
+
+        it("is immutable", ()->{
+          assertThat(context().scalar().mutability()).isEqualTo(ScalarMutabilityType.IMMUTABLE);
+        });
       });
 
       describe("when created from a generator function", ()->{
         Variable<Double> modifiableValue = Variable.of(1.0);
         context().scalar(()-> Mathe.scalar(modifiableValue::get));
 
-        it("has a double function equal to the function result", ()->{
+        it("has a double value equal to the function result", ()->{
           assertThat(context().scalar().asDouble()).isEqualTo(1.0);
         });
 
@@ -45,6 +51,31 @@ public class ScalarTest extends JavaSpec<MatheTestContext> {
 
           modifiableValue.set(6.0);
           assertThat(context().scalar().asDouble()).isEqualTo(6.0);
+        });
+
+        it("is mutable", ()->{
+          assertThat(context().scalar().mutability()).isEqualTo(ScalarMutabilityType.MUTABLE);
+        });
+      });
+
+      describe("when created from a lazy function", ()->{
+        Variable<Double> modifiableValue = Variable.of(1.0);
+        context().scalar(()-> Mathe.lazyScalar(modifiableValue::get));
+
+        it("has a double value equal to the function result", ()->{
+          assertThat(context().scalar().asDouble()).isEqualTo(1.0);
+        });
+
+        it("its value it's cached the first time", ()->{
+          modifiableValue.set(8.0);
+          assertThat(context().scalar().asDouble()).isEqualTo(8.0);
+
+          modifiableValue.set(6.0);
+          assertThat(context().scalar().asDouble()).isEqualTo(8.0);
+        });
+
+        it("is immutable", ()->{
+          assertThat(context().scalar().mutability()).isEqualTo(ScalarMutabilityType.IMMUTABLE);
         });
       });
 

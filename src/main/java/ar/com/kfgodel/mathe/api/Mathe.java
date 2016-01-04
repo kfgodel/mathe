@@ -1,6 +1,7 @@
 package ar.com.kfgodel.mathe.api;
 
 import ar.com.kfgodel.mathe.impl.scalar.DoubleScalar;
+import ar.com.kfgodel.mathe.impl.scalar.LazyScalar;
 import ar.com.kfgodel.mathe.impl.scalar.SuppliedScalar;
 import ar.com.kfgodel.mathe.impl.vector.BidiVectorImpl;
 
@@ -28,6 +29,17 @@ public interface Mathe {
   static Scalar scalar(DoubleSupplier doubleSupplier) {
     return SuppliedScalar.create(doubleSupplier);
   }
+
+  /**
+   * Creates a scalar based on the given function result, that is executed only
+   * the first time the value is accessed
+   * @param supplier The function to get the scalar value
+   * @return The created scalar
+   */
+  static Scalar lazyScalar(DoubleSupplier supplier) {
+    return LazyScalar.create(supplier);
+  }
+
 
   /**
    * Creates a bi dimensional vector based on the pair of scalars given.<br>

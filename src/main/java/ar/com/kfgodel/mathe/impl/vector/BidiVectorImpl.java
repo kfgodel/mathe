@@ -2,6 +2,7 @@ package ar.com.kfgodel.mathe.impl.vector;
 
 import ar.com.kfgodel.mathe.api.BidiVector;
 import ar.com.kfgodel.mathe.api.Scalar;
+import ar.com.kfgodel.mathe.api.ScalarMutabilityType;
 
 import java.util.Objects;
 
@@ -56,5 +57,10 @@ public class BidiVectorImpl implements BidiVector {
   @Override
   public int hashCode() {
     return Objects.hash(first, second);
+  }
+
+  @Override
+  public ScalarMutabilityType mutability() {
+    return firstComponent().mutability().combinedWith(secondComponent().mutability());
   }
 }
