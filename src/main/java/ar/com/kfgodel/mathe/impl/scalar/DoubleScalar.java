@@ -1,4 +1,4 @@
-package ar.com.kfgodel.mathe.impl;
+package ar.com.kfgodel.mathe.impl.scalar;
 
 import ar.com.kfgodel.mathe.api.Scalar;
 
@@ -6,7 +6,7 @@ import ar.com.kfgodel.mathe.api.Scalar;
  * Constant value scalar based on a primitive double
  * Created by tenpines on 03/01/16.
  */
-public class DoubleScalar implements Scalar {
+public class DoubleScalar extends ScalarSupport {
 
   private double value;
 

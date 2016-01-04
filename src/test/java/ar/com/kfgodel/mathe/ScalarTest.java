@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Created by tenpines on 03/01/16.
  */
 @RunWith(JavaSpecRunner.class)
-public class EscalarTest extends JavaSpec<MatheTestContext> {
+public class ScalarTest extends JavaSpec<MatheTestContext> {
   @Override
   public void define() {
     describe("a scalar value", ()->{
@@ -30,6 +30,7 @@ public class EscalarTest extends JavaSpec<MatheTestContext> {
           assertThat(context().scalar().asDouble()).isEqualTo(2.0);
         });
       });
+
       describe("when cached from a function", ()->{
         Variable<Double> modifiableValue = Variable.of(1.0);
         context().scalar(()-> Mathe.cachedScalar(modifiableValue::get));
@@ -61,6 +62,29 @@ public class EscalarTest extends JavaSpec<MatheTestContext> {
 
           modifiableValue.set(6.0);
           assertThat(context().scalar().asDouble()).isEqualTo(6.0);
+        });
+      });
+
+      describe("as a functional supplier", ()->{
+        it("returns its double value when used as a DoubleSupplier", ()->{
+          assertThat(Mathe.scalar(1.0).getAsDouble()).isEqualTo(1.0);
+        });
+        it("returns itself when used as a Supplier", ()->{
+          Scalar scalar = Mathe.scalar(1.0);
+          assertThat(scalar.get()).isSameAs(scalar);
+        });
+      });
+
+      describe("equality", ()->{
+        it("is defined by it's current value", ()->{
+          assertThat(Mathe.scalar(3.0)).isNotEqualTo(Mathe.scalar(1.0));
+          assertThat(Mathe.scalar(3.0)).isEqualTo(Mathe.scalar(3.0));
+        });
+      });
+
+      describe("toString", ()->{
+        it("is its current value as string", ()->{
+          assertThat(Mathe.scalar(18.0).toString()).isEqualTo("18.0");
         });
       });
     });

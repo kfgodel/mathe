@@ -1,6 +1,7 @@
 package ar.com.kfgodel.mathe;
 
 import ar.com.dgarcia.javaspec.api.TestContext;
+import ar.com.kfgodel.mathe.api.BidiVector;
 import ar.com.kfgodel.mathe.api.Scalar;
 
 import java.util.function.Supplier;
@@ -12,4 +13,7 @@ import java.util.function.Supplier;
 public interface MatheTestContext extends TestContext {
   Scalar scalar();
   void scalar(Supplier<Scalar> definition);
+
+  BidiVector vector();
+  void vector(Supplier<BidiVector> vector);
 }

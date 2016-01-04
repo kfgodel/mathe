@@ -1,8 +1,9 @@
 package ar.com.kfgodel.mathe.api;
 
-import ar.com.kfgodel.mathe.impl.CachedScalar;
-import ar.com.kfgodel.mathe.impl.DoubleScalar;
-import ar.com.kfgodel.mathe.impl.SuppliedScalar;
+import ar.com.kfgodel.mathe.impl.scalar.CachedScalar;
+import ar.com.kfgodel.mathe.impl.scalar.DoubleScalar;
+import ar.com.kfgodel.mathe.impl.scalar.SuppliedScalar;
+import ar.com.kfgodel.mathe.impl.vector.BidiVectorImpl;
 
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
@@ -39,5 +40,16 @@ public interface Mathe {
    */
   static Scalar cachedScalar(DoubleSupplier supplier) {
     return CachedScalar.create(supplier);
+  }
+
+  /**
+   * Creates a bi dimensional vector based on the pair of scalars given.<br>
+   *   Properties of this vector will depend on properties of the scalars
+   * @param first The first coordinate (also known as x, or width)
+   * @param second The second coordinate (also known as y, or height)
+   * @return The created vector
+   */
+  static BidiVector vector(Scalar first, Scalar second) {
+    return BidiVectorImpl.create(first, second);
   }
 }

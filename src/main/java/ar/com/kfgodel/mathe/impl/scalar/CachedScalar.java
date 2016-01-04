@@ -1,15 +1,14 @@
-package ar.com.kfgodel.mathe.impl;
+package ar.com.kfgodel.mathe.impl.scalar;
 
 import ar.com.kfgodel.mathe.api.Scalar;
 
 import java.util.function.DoubleSupplier;
-import java.util.function.Supplier;
 
 /**
  * Scalar based on a lazily defined constant value
  * Created by tenpines on 03/01/16.
  */
-public class CachedScalar implements Scalar {
+public class CachedScalar extends ScalarSupport {
 
   private DoubleSupplier supplier;
   private double value;
