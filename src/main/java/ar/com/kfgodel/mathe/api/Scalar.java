@@ -32,4 +32,14 @@ public interface Scalar extends DoubleSupplier, Supplier<Scalar>, Value {
   default ScalarMutabilityType mutability(){
     return ScalarMutabilityType.MUTABLE;
   };
+
+  /**
+   * Sums the value of this scalar to the one given.<br>
+   *   The result mutability depends on both scalar mutability
+   * @param other The scalar to add
+   * @return The resulting scalar
+   */
+  default Scalar plus(Scalar other){
+    return this.mutability().combinedWith(other.mutability()).generate(()-> this.asDouble() + other.asDouble());
+  }
 }

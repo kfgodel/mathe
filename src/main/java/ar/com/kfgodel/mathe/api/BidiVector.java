@@ -44,4 +44,12 @@ public interface BidiVector extends Supplier<BidiVector>, Value {
   default Scalar height(){
     return secondComponent();
   }
+
+  /**
+   * Sums each component and returns a new scalar with the result.<br>
+   *   If components of both vectors are immutable the result is immutable
+   * @param other The vector to sum to this instance
+   * @return The resulting vector
+   */
+  BidiVector plus(BidiVector other);
 }

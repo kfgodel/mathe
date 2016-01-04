@@ -83,6 +83,12 @@ public class BidiVectorTest extends JavaSpec<MatheTestContext> {
         });
       });
 
+      describe("addition", ()->{
+        it("is the vector addition of components", ()->{
+          assertThat(context().vector().plus(vector(2.0, 4.0))).isEqualTo(vector(3.0, 11.0));
+        });
+      });
+
     });
   }
 

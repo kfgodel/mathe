@@ -1,6 +1,7 @@
 package ar.com.kfgodel.mathe.impl.vector;
 
 import ar.com.kfgodel.mathe.api.BidiVector;
+import ar.com.kfgodel.mathe.api.Mathe;
 import ar.com.kfgodel.mathe.api.Scalar;
 import ar.com.kfgodel.mathe.api.ScalarMutabilityType;
 
@@ -30,6 +31,14 @@ public class BidiVectorImpl implements BidiVector {
   @Override
   public Scalar secondComponent() {
     return second;
+  }
+
+  @Override
+  public BidiVector plus(BidiVector other) {
+    return Mathe.vector(
+      this.firstComponent().plus(other.firstComponent()),
+      this.secondComponent().plus(other.secondComponent())
+    );
   }
 
   @Override
