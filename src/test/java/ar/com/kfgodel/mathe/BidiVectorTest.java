@@ -2,7 +2,6 @@ package ar.com.kfgodel.mathe;
 
 import ar.com.dgarcia.javaspec.api.JavaSpec;
 import ar.com.dgarcia.javaspec.api.JavaSpecRunner;
-import ar.com.kfgodel.mathe.api.Mathe;
 import org.junit.runner.RunWith;
 
 import static ar.com.kfgodel.mathe.api.Mathe.scalar;
@@ -19,6 +18,10 @@ public class BidiVectorTest extends JavaSpec<MatheTestContext> {
   public void define() {
     describe("a bi dimensional vector", ()->{
       context().vector(()-> vector(scalar(1.0), scalar(7.0)));
+
+      it("can also be created from primitives", ()->{
+        assertThat(vector(2.0, 3.0)).isNotNull();
+      });
 
       describe("first component", ()->{
         it("is the first given scalar", ()->{
@@ -50,6 +53,21 @@ public class BidiVectorTest extends JavaSpec<MatheTestContext> {
         });
       });
 
+      describe("toString", ()->{
+        it("is the string representation of an array of two doubles", ()->{
+          assertThat(context().vector().toString()).isEqualTo("[1.0, 7.0]");
+        });
+      });
+
+      describe("equality", ()->{
+        it("is based on its two components", ()->{
+          assertThat(context().vector()).isEqualTo(vector(1.0, 7.0));
+          assertThat(context().vector()).isNotEqualTo(vector(2.0, 7.0));
+          assertThat(context().vector()).isNotEqualTo(vector(1.0, 8.0));
+        });
+      });
+
     });
   }
+
 }

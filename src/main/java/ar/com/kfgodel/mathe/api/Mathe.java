@@ -1,12 +1,10 @@
 package ar.com.kfgodel.mathe.api;
 
-import ar.com.kfgodel.mathe.impl.scalar.CachedScalar;
 import ar.com.kfgodel.mathe.impl.scalar.DoubleScalar;
 import ar.com.kfgodel.mathe.impl.scalar.SuppliedScalar;
 import ar.com.kfgodel.mathe.impl.vector.BidiVectorImpl;
 
 import java.util.function.DoubleSupplier;
-import java.util.function.Supplier;
 
 /**
  * Access point class to Mathe concepts
@@ -32,17 +30,6 @@ public interface Mathe {
   }
 
   /**
-   * Creates a scalar value that caches the first result of the given
-   * supplier function. <br>
-   *   The function will be called lazily when the value is needed
-   * @param supplier The function to be called once
-   * @return The created scalar
-   */
-  static Scalar cachedScalar(DoubleSupplier supplier) {
-    return CachedScalar.create(supplier);
-  }
-
-  /**
    * Creates a bi dimensional vector based on the pair of scalars given.<br>
    *   Properties of this vector will depend on properties of the scalars
    * @param first The first coordinate (also known as x, or width)
@@ -52,4 +39,13 @@ public interface Mathe {
   static BidiVector vector(Scalar first, Scalar second) {
     return BidiVectorImpl.create(first, second);
   }
+
+  /**
+   * Facility method to reduce verbosity. Creates a vector out of a pair of primitives
+   * @return The created vector out of two constant scalars
+   */
+  static BidiVector vector(double firstComponent, double secondComponent) {
+    return vector(scalar(firstComponent), scalar(secondComponent));
+  }
+
 }

@@ -31,23 +31,6 @@ public class ScalarTest extends JavaSpec<MatheTestContext> {
         });
       });
 
-      describe("when cached from a function", ()->{
-        Variable<Double> modifiableValue = Variable.of(1.0);
-        context().scalar(()-> Mathe.cachedScalar(modifiableValue::get));
-
-        it("has a double value equal to the first function result", ()->{
-          assertThat(context().scalar().asDouble()).isEqualTo(1.0);
-        });
-
-        it("its value it's cached for the subsequent calls", ()->{
-          modifiableValue.set(5.0);
-          assertThat(context().scalar().asDouble()).isEqualTo(5.0);
-
-          modifiableValue.set(6.0);
-          assertThat(context().scalar().asDouble()).isEqualTo(5.0);
-        });
-      });
-
       describe("when created from a generator function", ()->{
         Variable<Double> modifiableValue = Variable.of(1.0);
         context().scalar(()-> Mathe.scalar(modifiableValue::get));
