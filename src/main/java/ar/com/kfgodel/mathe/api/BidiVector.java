@@ -52,4 +52,12 @@ public interface BidiVector extends Supplier<BidiVector>, Value {
    * @return The resulting vector
    */
   BidiVector plus(BidiVector other);
+
+  /**
+   * Generates a vector whose first component is the multiplication of first component
+   * of this instance and the one given, and the second component us the multipluication of second components
+   * @param other The vector to multiply with
+   * @return The created vector
+   */
+  BidiVector componentProduct(BidiVector other);
 }

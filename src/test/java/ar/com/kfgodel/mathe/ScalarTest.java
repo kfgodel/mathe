@@ -114,6 +114,12 @@ public class ScalarTest extends JavaSpec<MatheTestContext> {
           assertThat(scalar(1.0).plus(()-> 9.0).mutability()).isEqualTo(ScalarMutabilityType.MUTABLE);
         });
       });
+
+      describe("multiplication", ()->{
+        it("is the scalar with the multiplication of both values", ()->{
+          assertThat(scalar(2.0).multiply(scalar(5.0))).isEqualTo(scalar(10.0));
+        });
+      });
     });
   }
 }

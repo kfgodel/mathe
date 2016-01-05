@@ -1,5 +1,6 @@
 package ar.com.kfgodel.mathe.api;
 
+import java.util.function.DoubleBinaryOperator;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
@@ -40,6 +41,28 @@ public interface Scalar extends DoubleSupplier, Supplier<Scalar>, Value {
    * @return The resulting scalar
    */
   default Scalar plus(Scalar other){
-    return this.mutability().combinedWith(other.mutability()).generate(()-> this.asDouble() + other.asDouble());
+    return this.combiningMutabilityWith(other, (thisValue, otherValue) -> thisValue + otherValue );
   }
+
+  /**
+   * Generates a scalar with the result of the multiplication of this two scalars
+   * @param other The scalar to multiply this with
+   * @return The resulting scalar
+   */
+  default Scalar multiply(Scalar other){
+    return this.combiningMutabilityWith(other, (thisValue, otherValue) -> thisValue * otherValue );
+  }
+
+  /**
+   * Generates a scalar that combines values with the given scalar and applying the given operation.<br>
+   *   The new scalar mutability will depend on original scalar mutability
+   * @param other The scalar to combine
+   * @param operation The operation that defines the combination
+   * @return The resulting scalar
+   */
+  default Scalar combiningMutabilityWith(Scalar other, DoubleBinaryOperator operation){
+    return this.mutability().combinedWith(other.mutability())
+      .generate(()-> operation.applyAsDouble(this.asDouble(), other.asDouble()));
+  }
+
 }

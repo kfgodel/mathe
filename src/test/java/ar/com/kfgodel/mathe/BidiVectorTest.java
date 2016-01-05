@@ -89,6 +89,12 @@ public class BidiVectorTest extends JavaSpec<MatheTestContext> {
         });
       });
 
+      describe("component product", ()->{
+        it("is the vector formed by multiplying components of each vector", ()->{
+          assertThat(context().vector().componentProduct(vector(-2.0, -1.0))).isEqualTo(vector(-2.0, -7.0));
+        });
+      });
+
     });
   }
 

@@ -42,6 +42,14 @@ public class BidiVectorImpl implements BidiVector {
   }
 
   @Override
+  public BidiVector componentProduct(BidiVector other) {
+    return Mathe.vector(
+      firstComponent().multiply(other.firstComponent()),
+      secondComponent().multiply(other.secondComponent())
+    );
+  }
+
+  @Override
   public BidiVector get() {
     return this;
   }
