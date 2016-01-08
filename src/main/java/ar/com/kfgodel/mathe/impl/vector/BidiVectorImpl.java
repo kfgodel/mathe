@@ -6,6 +6,7 @@ import ar.com.kfgodel.mathe.api.Scalar;
 import ar.com.kfgodel.mathe.api.ScalarMutabilityType;
 
 import java.util.Objects;
+import java.util.function.BinaryOperator;
 
 /**
  * This type represents a bi dimensional vector based on two pre-defined scalars
@@ -35,25 +36,29 @@ public class BidiVectorImpl implements BidiVector {
 
   @Override
   public BidiVector plus(BidiVector other) {
-    return Mathe.vector(
-      this.firstComponent().plus(other.firstComponent()),
-      this.secondComponent().plus(other.secondComponent())
-    );
+    return combineEachComponentApplying(Scalar::plus, other);
   }
 
   @Override
   public BidiVector componentProduct(BidiVector other) {
-    return Mathe.vector(
-      firstComponent().multiply(other.firstComponent()),
-      secondComponent().multiply(other.secondComponent())
-    );
+    return combineEachComponentApplying(Scalar::multiply, other);
   }
 
   @Override
   public BidiVector minus(BidiVector other) {
+    return combineEachComponentApplying(Scalar::minus, other);
+  }
+
+  /**
+   * Combines this vector with the one given, applying a scalar operation to each component pair
+   * @param operation The scalar operation to apply in each of the vector's component
+   * @param other The vector to combine with
+   * @return The new vector with the result
+   */
+  private BidiVector combineEachComponentApplying(BinaryOperator<Scalar> operation, BidiVector other) {
     return Mathe.vector(
-      firstComponent().minus(other.firstComponent()),
-      secondComponent().minus(other.secondComponent())
+      operation.apply(this.firstComponent(), other.firstComponent()),
+      operation.apply(this.secondComponent(), other.secondComponent())
     );
   }
 
