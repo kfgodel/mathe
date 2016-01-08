@@ -33,4 +33,5 @@ public class LazyScalar extends ScalarSupport {
   public ScalarMutabilityType mutability() {
     return ScalarMutabilityType.IMMUTABLE;
   }
+
 }

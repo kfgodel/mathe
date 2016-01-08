@@ -65,4 +65,12 @@ public interface Scalar extends DoubleSupplier, Supplier<Scalar>, Value {
       .generate(()-> operation.applyAsDouble(this.asDouble(), other.asDouble()));
   }
 
+  /**
+   * Generates a new scalar with the subtraction of the given scalar to this
+   * @param other The scalar to subtract
+   * @return The difference scalar
+   */
+  default Scalar minus(Scalar other){
+    return this.combiningMutabilityWith(other, (thisValue, otherValue) -> thisValue - otherValue );
+  }
 }

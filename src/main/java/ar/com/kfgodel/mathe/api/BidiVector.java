@@ -60,4 +60,11 @@ public interface BidiVector extends Supplier<BidiVector>, Value {
    * @return The created vector
    */
   BidiVector componentProduct(BidiVector other);
+
+  /**
+   * Generate a vector with the result of subtracting each each component
+   * @param other The vector to subtract
+   * @return The difference vector
+   */
+  BidiVector minus(BidiVector other);
 }

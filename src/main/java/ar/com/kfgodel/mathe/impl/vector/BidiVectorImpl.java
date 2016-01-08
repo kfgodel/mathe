@@ -50,6 +50,14 @@ public class BidiVectorImpl implements BidiVector {
   }
 
   @Override
+  public BidiVector minus(BidiVector other) {
+    return Mathe.vector(
+      firstComponent().minus(other.firstComponent()),
+      secondComponent().minus(other.secondComponent())
+    );
+  }
+
+  @Override
   public BidiVector get() {
     return this;
   }
