@@ -30,7 +30,11 @@ public class ScalarTest extends JavaSpec<MatheTestContext> {
         
         it("has a float accessor to the value",()->{
           assertThat(context().scalar().asFloat()).isEqualTo(2.0f);
-        });   
+        });
+
+        it("has an int accessor to the value",()->{
+          assertThat(context().scalar().asInt()).isEqualTo(2);
+        });
 
         it("its value doesn't change over time", ()->{
           assertThat(context().scalar().asDouble()).isEqualTo(2.0);
@@ -89,7 +93,7 @@ public class ScalarTest extends JavaSpec<MatheTestContext> {
             assertThat(Mathe.ZERO_SCALAR).isEqualTo(scalar(0.0));
         });   
         it("is unity",()->{
-          assertThat(Mathe.UNITY_SCALAR).isEqualTo(scalar(1.0));
+          assertThat(Mathe.ONE_SCALAR).isEqualTo(scalar(1.0));
         });   
       });
 
@@ -109,6 +113,20 @@ public class ScalarTest extends JavaSpec<MatheTestContext> {
           assertThat(scalar(3.0)).isNotEqualTo(scalar(1.0));
           assertThat(scalar(3.0)).isEqualTo(scalar(3.0));
         });
+        describe("compared to a number", () -> {
+          it("is true if the double value of the number is equal to the scalar value",()->{
+            assertThat(scalar(3.0)).isEqualTo(3.0);
+            assertThat(scalar(3.0)).isEqualTo(3.0f);
+            assertThat(scalar(3.0)).isEqualTo(3);
+          });
+          
+          it("is false if the values differ",()->{
+            assertThat(scalar(3.5)).isNotEqualTo(3.6);
+            assertThat(scalar(3.5)).isNotEqualTo(3.500001f);
+            assertThat(scalar(3.5)).isNotEqualTo(3);
+          });   
+        });
+
       });
 
       describe("toString", ()->{
@@ -121,18 +139,40 @@ public class ScalarTest extends JavaSpec<MatheTestContext> {
         it("is the sum of both scalars", ()->{
           assertThat(scalar(1.0).plus(scalar(9.0))).isEqualTo(scalar(10.0));
         });
+        it("can receive a primitive value",()->{
+          assertThat(scalar(1.0).plus(9.0)).isEqualTo(scalar(10.0));
+        });
         it("is immutable if both scalars are immutable", ()->{
           assertThat(scalar(1.0).plus(scalar(9.0)).mutability()).isEqualTo(ScalarMutabilityType.IMMUTABLE);
         });
-        it("is mutable if any scalars is mutable", ()->{
+        it("is mutable if any scalar is mutable", ()->{
           assertThat(scalar(1.0).plus(()-> 9.0).mutability()).isEqualTo(ScalarMutabilityType.MUTABLE);
         });
+
       });
 
       describe("multiplication", ()->{
         it("is the scalar with the multiplication of both values", ()->{
           assertThat(scalar(2.0).multiply(scalar(5.0))).isEqualTo(scalar(10.0));
         });
+        it("can receive a primitive value",()->{
+          assertThat(scalar(2.0).multiply(5.0)).isEqualTo(scalar(10.0));
+        });
+        it("is the multiplication by 2 when doubled() called",()->{
+          assertThat(scalar(9.0).doubled()).isEqualTo(scalar(18.0));
+        });   
+      });
+
+      describe("division", () -> {
+        it("is the division by other scalar",()->{
+          assertThat(scalar(5.0).divide(scalar(2.0))).isEqualTo(scalar(2.5));
+        });
+        it("can receive a primitive value",()->{
+          assertThat(scalar(1.0).divide(2.0)).isEqualTo(scalar(0.5));
+        });
+        it("is the division by 2 when called to halved()",()->{
+          assertThat(scalar(5.0).halved()).isEqualTo(scalar(2.5));
+        });   
       });
 
       describe("invertion", () -> {
@@ -156,6 +196,9 @@ public class ScalarTest extends JavaSpec<MatheTestContext> {
             assertThat(scalar(1.0).isLessThan(scalar(1.0))).isFalse();
             assertThat(scalar(1.0).isLessThan(scalar(0.9))).isFalse();
           });
+          it("can receive a primitive value",()->{
+            assertThat(scalar(1.0).isLessThan(1.1)).isTrue();
+          });
         });
         describe("isLessOrEqualTo", () -> {
           it("is true if value is less or equal to other scalar",()->{
@@ -164,6 +207,9 @@ public class ScalarTest extends JavaSpec<MatheTestContext> {
           });
           it("is false if value is greater than other value",()->{
             assertThat(scalar(1.0).isLessOrEqualTo(scalar(0.9))).isFalse();
+          });
+          it("can receive a primitive value",()->{
+            assertThat(scalar(1.0).isLessOrEqualTo(1.1)).isTrue();
           });
         });
         describe("isEqualTo", () -> {
@@ -174,6 +220,9 @@ public class ScalarTest extends JavaSpec<MatheTestContext> {
             assertThat(scalar(1.0).isEqualTo(scalar(1.1))).isFalse();
             assertThat(scalar(1.0).isEqualTo(scalar(0.9))).isFalse();
           });
+          it("can receive a primitive value",()->{
+            assertThat(scalar(1.0).isEqualTo(1.0)).isTrue();
+          });
         });
         describe("isGreaterOrEqualTo", () -> {
           it("is true if value is greater or equal to other scalar",()->{
@@ -183,6 +232,9 @@ public class ScalarTest extends JavaSpec<MatheTestContext> {
           it("is false if value is less than other value",()->{
             assertThat(scalar(1.0).isGreaterOrEqualTo(scalar(1.1))).isFalse();
           });
+          it("can receive a primitive value",()->{
+            assertThat(scalar(1.0).isGreaterOrEqualTo(0.9)).isTrue();
+          });
         });
         describe("isGreaterThan", () -> {
           it("is true if value is greater than other scalar",()->{
@@ -191,6 +243,9 @@ public class ScalarTest extends JavaSpec<MatheTestContext> {
           it("is false if value is equal or less than other value",()->{
             assertThat(scalar(1.0).isGreaterThan(scalar(1.0))).isFalse();
             assertThat(scalar(1.0).isGreaterThan(scalar(1.1))).isFalse();
+          });
+          it("can receive a primitive value",()->{
+            assertThat(scalar(1.0).isGreaterThan(0.9)).isTrue();
           });
         });
       });

@@ -24,6 +24,8 @@ public class BidiVectorTest extends JavaSpec<MatheTestContext> {
 
       it("can also be created from primitives", ()->{
         assertThat(vector(2.0, 3.0)).isNotNull();
+        assertThat(vector(scalar(2.0), 3.0)).isNotNull();
+        assertThat(vector(2.0, scalar(3.0))).isNotNull();
       });
 
       describe("first component", ()->{
@@ -125,6 +127,12 @@ public class BidiVectorTest extends JavaSpec<MatheTestContext> {
         });   
       });
 
+      describe("division", () -> {
+        it("is the scalar division of each component",()->{
+          assertThat(context().vector().divide(scalar(2.0))).isEqualTo(vector(0.5, 3.5));
+        });   
+      });
+
 
       describe("invertion", () -> {
         it("changes the x sign when called to invertX()",()->{
@@ -155,5 +163,6 @@ public class BidiVectorTest extends JavaSpec<MatheTestContext> {
 
     });
   }
+
 
 }

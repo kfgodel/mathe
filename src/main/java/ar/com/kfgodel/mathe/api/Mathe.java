@@ -14,11 +14,12 @@ import java.util.function.DoubleSupplier;
 public interface Mathe {
 
   Scalar ZERO_SCALAR = scalar(0.0);
-  Scalar UNITY_SCALAR = scalar(1.0);
+  Scalar ONE_SCALAR = scalar(1.0);
+  Scalar TWO_SCALAR = scalar(2.0);
 
   BidiVector ZERO_VECTOR = vector(ZERO_SCALAR, ZERO_SCALAR);
-  BidiVector X_VECTOR = vector(UNITY_SCALAR, ZERO_SCALAR);
-  BidiVector Y_VECTOR = vector(ZERO_SCALAR, UNITY_SCALAR);
+  BidiVector X_VECTOR = vector(ONE_SCALAR, ZERO_SCALAR);
+  BidiVector Y_VECTOR = vector(ZERO_SCALAR, ONE_SCALAR);
 
   /**
    * Creates a scalar value with the given constant value
@@ -66,6 +67,20 @@ public interface Mathe {
    */
   static BidiVector vector(double firstComponent, double secondComponent) {
     return vector(scalar(firstComponent), scalar(secondComponent));
+  }
+  /**
+   * Facility method to reduce verbosity. Creates a vector out of a mix of primitives and scalar
+   * @return The created vector out of two constant scalars
+   */
+  static BidiVector vector(Scalar firstComponent, double secondComponent) {
+    return vector(firstComponent, scalar(secondComponent));
+  }
+  /**
+   * Facility method to reduce verbosity. Creates a vector out of a mix of primitives and scalar
+   * @return The created vector out of two constant scalars
+   */
+  static BidiVector vector(double firstComponent, Scalar secondComponent) {
+    return vector(scalar(firstComponent), secondComponent);
   }
 
 }

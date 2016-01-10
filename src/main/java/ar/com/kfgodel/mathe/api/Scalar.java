@@ -4,6 +4,9 @@ import java.util.function.DoubleBinaryOperator;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
+import static ar.com.kfgodel.mathe.api.Mathe.TWO_SCALAR;
+import static ar.com.kfgodel.mathe.api.Mathe.scalar;
+
 /**
  * This type represents a one dimension vector (or a real number)
  * Created by tenpines on 03/01/16.
@@ -24,6 +27,20 @@ public interface Scalar extends DoubleSupplier, Supplier<Scalar>, Value {
   @Override
   default Scalar get(){
     return this;
+  }
+
+  /**
+   * @return The value of this scalar casted to int
+   */
+  default int asInt(){
+    return (int) asDouble();
+  }
+
+  /**
+   * @return The value as float (casted to float)
+   */
+  default float asFloat(){
+    return (float) asDouble();
   }
 
   /**
@@ -92,13 +109,6 @@ public interface Scalar extends DoubleSupplier, Supplier<Scalar>, Value {
   }
 
   /**
-   * @return The value as float (casted to float)
-   */
-  default float asFloat(){
-    return (float) asDouble();
-  }
-
-  /**
    * Compares this scalar to the given and returns true if this is less
    */
   default boolean isLessThan(Scalar other){
@@ -129,6 +139,84 @@ public interface Scalar extends DoubleSupplier, Supplier<Scalar>, Value {
    */
   default boolean isEqualTo(Scalar other){
     return asDouble() == other.asDouble();
+  }
+
+  /**
+   * Generates a new scalar with the result of the division
+   */
+  default Scalar divide(Scalar other){
+    return this.combiningMutabilityWith(other, (thisValue, otherValue) -> thisValue / otherValue);
+  }
+
+  /**
+   * Divides this scalar by two, returning the result
+   */
+  default Scalar halved(){
+    return divide(Mathe.TWO_SCALAR);
+  }
+
+  /**
+   * Multiplies this scalar by two, getting the result
+   */
+  default Scalar doubled(){
+    return multiply(TWO_SCALAR);
+  }
+
+  /**
+   * Facility method that accepts a primitive value
+   */
+  default Scalar multiply(double otherValue){
+    return multiply(scalar(otherValue));
+  }
+
+  /**
+   * Facility method that accepts a primitive value
+   */
+  default Scalar plus(double otherValue){
+    return plus(scalar(otherValue));
+  }
+
+
+  /**
+   * Facility method that accepts a primitive value
+   */
+  default Scalar divide(double otherValue){
+    return divide(scalar(otherValue));
+  }
+
+  /**
+   * Facility method that accepts a primitive value
+   */
+  default boolean isLessThan(double otherValue){
+    return isLessThan(scalar(otherValue));
+  }
+
+  /**
+   * Facility method that accepts a primitive value
+   */
+  default boolean isLessOrEqualTo(double otherValue){
+    return isLessOrEqualTo(scalar(otherValue));
+  }
+
+  /**
+   * Facility method that accepts a primitive value
+   */
+  default boolean isEqualTo(double otherValue){
+    return isEqualTo(scalar(otherValue));
+  }
+
+  /**
+   * Facility method that accepts a primitive value
+   */
+  default boolean isGreaterOrEqualTo(double otherValue){
+    return isGreaterOrEqualTo(scalar(otherValue));
+  }
+
+  /**
+   * Facility method that accepts a primitive value
+   */
+  default boolean isGreaterThan(double otherValue){
+    return isGreaterThan(scalar(otherValue));
   }
 
 }

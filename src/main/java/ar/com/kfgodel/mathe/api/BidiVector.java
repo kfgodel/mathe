@@ -102,4 +102,9 @@ public interface BidiVector extends Supplier<BidiVector>, Value {
    * @return The resulting vector
    */
   BidiVector rotate(double degrees);
+
+  /**
+   * Generates a new vector with the result of dividing each component by the given divisor
+   */
+  BidiVector divide(Scalar divisor);
 }

@@ -62,8 +62,14 @@ public class BidiVectorImpl implements BidiVector {
 
   @Override
   public BidiVector scalarProduct(Scalar scalar) {
-    return vector(firstComponent().multiply(scalar), secondComponent().multiply(scalar));
+    return applyingToEachComponent(Scalar::multiply, scalar);
   }
+
+  @Override
+  public BidiVector divide(Scalar divisor) {
+    return applyingToEachComponent(Scalar::divide, divisor);
+  }
+
 
   @Override
   public BidiVector integered() {
@@ -129,5 +135,12 @@ public class BidiVectorImpl implements BidiVector {
   @Override
   public ScalarMutabilityType mutability() {
     return firstComponent().mutability().combinedWith(secondComponent().mutability());
+  }
+
+  private BidiVector applyingToEachComponent(BinaryOperator<Scalar> operation, Scalar other) {
+    return vector(
+      operation.apply(firstComponent(), other),
+      operation.apply(secondComponent(), other)
+    );
   }
 }
