@@ -101,6 +101,16 @@ public class BidiVectorTest extends JavaSpec<MatheTestContext> {
         });
       });
 
+      describe("invertion", () -> {
+        it("changes the x sign when called to invertX()",()->{
+            assertThat(context().vector().invertX()).isEqualTo(vector(-1.0, 7.0));
+        });
+        it("changes the y sign when called to invertY()",()->{
+          assertThat(context().vector().invertY()).isEqualTo(vector(1.0, -7.0));
+        });   
+      });
+
+
     });
   }
 

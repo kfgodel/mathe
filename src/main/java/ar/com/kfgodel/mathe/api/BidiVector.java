@@ -67,4 +67,14 @@ public interface BidiVector extends Supplier<BidiVector>, Value {
    * @return The difference vector
    */
   BidiVector minus(BidiVector other);
+
+  /**
+   * Inverts the sign of the x component
+   */
+  BidiVector invertX();
+
+  /**
+   * Inverts the sign of the y component
+   */
+  BidiVector invertY();
 }

@@ -49,6 +49,16 @@ public class BidiVectorImpl implements BidiVector {
     return combineEachComponentApplying(Scalar::minus, other);
   }
 
+  @Override
+  public BidiVector invertX() {
+    return componentProduct(Mathe.vector(-1.0, 1.0));
+  }
+
+  @Override
+  public BidiVector invertY() {
+    return componentProduct(Mathe.vector(1.0, -1.0));
+  }
+
   /**
    * Combines this vector with the one given, applying a scalar operation to each component pair
    * @param operation The scalar operation to apply in each of the vector's component
