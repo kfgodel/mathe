@@ -73,4 +73,13 @@ public interface Scalar extends DoubleSupplier, Supplier<Scalar>, Value {
   default Scalar minus(Scalar other){
     return this.combiningMutabilityWith(other, (thisValue, otherValue) -> thisValue - otherValue );
   }
+
+  /**
+   * Generates a new scalar with the inverted sign (negative value)
+   * @return The equivalent of multiplying this scalar by -1
+   */
+  default Scalar invert(){
+    return this.mutability().combinedWith(ScalarMutabilityType.IMMUTABLE)
+      .generate(()-> -asDouble());
+  }
 }

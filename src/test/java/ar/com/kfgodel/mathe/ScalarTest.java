@@ -120,6 +120,13 @@ public class ScalarTest extends JavaSpec<MatheTestContext> {
           assertThat(scalar(2.0).multiply(scalar(5.0))).isEqualTo(scalar(10.0));
         });
       });
+
+      describe("invertion", () -> {
+        it("changes the scalar sign",()->{
+          assertThat(scalar(2.0).invert()).isEqualTo(scalar(-2.0));
+        });   
+      });
+
     });
   }
 }

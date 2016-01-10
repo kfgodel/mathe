@@ -1,12 +1,13 @@
 package ar.com.kfgodel.mathe.impl.vector;
 
 import ar.com.kfgodel.mathe.api.BidiVector;
-import ar.com.kfgodel.mathe.api.Mathe;
 import ar.com.kfgodel.mathe.api.Scalar;
 import ar.com.kfgodel.mathe.api.ScalarMutabilityType;
 
 import java.util.Objects;
 import java.util.function.BinaryOperator;
+
+import static ar.com.kfgodel.mathe.api.Mathe.vector;
 
 /**
  * This type represents a bi dimensional vector based on two pre-defined scalars
@@ -51,12 +52,12 @@ public class BidiVectorImpl implements BidiVector {
 
   @Override
   public BidiVector invertX() {
-    return componentProduct(Mathe.vector(-1.0, 1.0));
+    return vector(firstComponent().invert(), secondComponent());
   }
 
   @Override
   public BidiVector invertY() {
-    return componentProduct(Mathe.vector(1.0, -1.0));
+    return vector(firstComponent(), secondComponent().invert());
   }
 
   /**
@@ -66,7 +67,7 @@ public class BidiVectorImpl implements BidiVector {
    * @return The new vector with the result
    */
   private BidiVector combineEachComponentApplying(BinaryOperator<Scalar> operation, BidiVector other) {
-    return Mathe.vector(
+    return vector(
       operation.apply(this.firstComponent(), other.firstComponent()),
       operation.apply(this.secondComponent(), other.secondComponent())
     );
