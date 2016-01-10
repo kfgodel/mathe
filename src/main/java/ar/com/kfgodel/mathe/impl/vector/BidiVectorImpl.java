@@ -8,6 +8,7 @@ import ar.com.kfgodel.nary.impl.NaryFromNative;
 
 import java.util.Objects;
 import java.util.function.BinaryOperator;
+import java.util.function.Function;
 
 import static ar.com.kfgodel.mathe.api.Mathe.vector;
 
@@ -38,21 +39,6 @@ public class BidiVectorImpl implements BidiVector {
   }
 
   @Override
-  public BidiVector plus(BidiVector other) {
-    return combineEachComponentApplying(Scalar::plus, other);
-  }
-
-  @Override
-  public BidiVector componentProduct(BidiVector other) {
-    return combineEachComponentApplying(Scalar::multiply, other);
-  }
-
-  @Override
-  public BidiVector minus(BidiVector other) {
-    return combineEachComponentApplying(Scalar::minus, other);
-  }
-
-  @Override
   public BidiVector invertX() {
     return vector(firstComponent().invert(), secondComponent());
   }
@@ -64,29 +50,45 @@ public class BidiVectorImpl implements BidiVector {
 
   @Override
   public BidiVector scalarProduct(Scalar scalar) {
-    return applyingToEachComponent(Scalar::multiply, scalar);
+    return combiningEachComponentWith(scalar, Scalar::multiply);
   }
 
   @Override
   public BidiVector divide(Scalar divisor) {
-    return applyingToEachComponent(Scalar::divide, divisor);
+    return combiningEachComponentWith(divisor, Scalar::divide);
   }
+
+  @Override
+  public BidiVector integered() {
+    return applyingToEachComponent(Scalar::integered);
+  }
+
+  @Override
+  public BidiVector invert() {
+    return applyingToEachComponent(Scalar::invert);
+  }
+
+  @Override
+  public BidiVector plus(BidiVector other) {
+    return combineEachComponentPairFrom(other, Scalar::plus);
+  }
+
+  @Override
+  public BidiVector componentProduct(BidiVector other) {
+    return combineEachComponentPairFrom(other, Scalar::multiply);
+  }
+
+  @Override
+  public BidiVector minus(BidiVector other) {
+    return combineEachComponentPairFrom(other, Scalar::minus);
+  }
+
 
   @Override
   public Nary<Scalar> components() {
     return NaryFromNative.of(firstComponent(), secondComponent());
   }
 
-
-  @Override
-  public BidiVector integered() {
-    return vector(firstComponent().integered(), secondComponent().integered());
-  }
-
-  @Override
-  public BidiVector invert() {
-    return vector(firstComponent().invert(), secondComponent().invert());
-  }
 
   @Override
   public BidiVector rotate(double degrees) {
@@ -96,19 +98,6 @@ public class BidiVectorImpl implements BidiVector {
     return vector(
       firstComponent().combiningMutabilityWith(secondComponent(), (x, y)-> x * cos - y * sin),
       firstComponent().combiningMutabilityWith(secondComponent(), (x, y)-> x * sin + y * cos)
-    );
-  }
-
-  /**
-   * Combines this vector with the one given, applying a scalar operation to each component pair
-   * @param operation The scalar operation to apply in each of the vector's component
-   * @param other The vector to combine with
-   * @return The new vector with the result
-   */
-  private BidiVector combineEachComponentApplying(BinaryOperator<Scalar> operation, BidiVector other) {
-    return vector(
-      operation.apply(this.firstComponent(), other.firstComponent()),
-      operation.apply(this.secondComponent(), other.secondComponent())
     );
   }
 
@@ -144,10 +133,28 @@ public class BidiVectorImpl implements BidiVector {
     return firstComponent().mutability().combinedWith(secondComponent().mutability());
   }
 
-  private BidiVector applyingToEachComponent(BinaryOperator<Scalar> operation, Scalar other) {
+  private BidiVector applyingToEachComponent(Function<Scalar, Scalar> operation) {
+    return vector(NaryFromNative.create(components().map(operation)));
+  }
+
+  private BidiVector combiningEachComponentWith(Scalar other, BinaryOperator<Scalar> operation) {
     return vector(
       operation.apply(firstComponent(), other),
       operation.apply(secondComponent(), other)
     );
   }
+
+  /**
+   * Combines this vector with the one given, applying a scalar operation to each component pair
+   * @param other The vector to combine with
+   * @param operation The scalar operation to apply in each of the vector's component
+   * @return The new vector with the result
+   */
+  private BidiVector combineEachComponentPairFrom(BidiVector other, BinaryOperator<Scalar> operation) {
+    return vector(
+      operation.apply(this.firstComponent(), other.firstComponent()),
+      operation.apply(this.secondComponent(), other.secondComponent())
+    );
+  }
+
 }

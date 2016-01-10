@@ -4,8 +4,12 @@ import ar.com.kfgodel.mathe.impl.scalar.DoubleScalar;
 import ar.com.kfgodel.mathe.impl.scalar.LazyScalar;
 import ar.com.kfgodel.mathe.impl.scalar.SuppliedScalar;
 import ar.com.kfgodel.mathe.impl.vector.BidiVectorImpl;
+import ar.com.kfgodel.nary.api.Nary;
+import ar.com.kfgodel.nary.impl.NaryFromNative;
 
+import java.util.List;
 import java.util.function.DoubleSupplier;
+import java.util.stream.Collectors;
 
 /**
  * Access point class to Mathe concepts
@@ -28,6 +32,20 @@ public interface Mathe {
    */
   static Scalar scalar(double value) {
     return DoubleScalar.create(value);
+  }
+
+  static Scalar scalar(Nary<? extends Number> values){
+    double value = values.findFirst()
+      .orElseThrow(()-> new IllegalArgumentException("Insufficient numbers in the nary to create scalar. Expected 1, got: 0"))
+      .doubleValue();
+    return scalar(value);
+  }
+
+  /**
+   * Facility method to create scalar out of objects
+   */
+  static Scalar scalar(Number value){
+    return scalar(value.doubleValue());
   }
 
   /**
@@ -62,9 +80,35 @@ public interface Mathe {
   }
 
   /**
-   * Facility method to reduce verbosity. Creates a vector out of a pair of primitives
-   * @return The created vector out of two constant scalars
+   * Expansion creation method that takes an unknown set of elements and expands to a vector.<br>
+   *   Only the first two elements of the nary are consumed
+   * @param components The nary of components
+   * @return The created vector
    */
+  static BidiVector vector(Nary<Scalar> components) {
+    List<Scalar> componentList = components.limit(2).collect(Collectors.toList());
+    int componentCount = componentList.size();
+    if(componentCount != 2){
+      throw new IllegalArgumentException("Insufficient scalars in the nary to create a vector. Expected 2, got: " + componentCount);
+    }
+    Scalar firstComponent = componentList.get(0);
+    Scalar secondComponent = componentList.get(1);
+    return vector(firstComponent, secondComponent);
+  }
+
+  /**
+   * Facility method to create the vector out of a stream of numbers
+   */
+  static BidiVector vectorFrom(Nary<? extends  Number> components) {
+    Nary<Scalar> scalarNary = NaryFromNative.create(components.map(Mathe::scalar));
+    return vector(scalarNary);
+  }
+
+
+    /**
+     * Facility method to reduce verbosity. Creates a vector out of a pair of primitives
+     * @return The created vector out of two constant scalars
+     */
   static BidiVector vector(double firstComponent, double secondComponent) {
     return vector(scalar(firstComponent), scalar(secondComponent));
   }

@@ -6,10 +6,13 @@ import ar.com.dgarcia.javaspec.api.Variable;
 import ar.com.kfgodel.mathe.api.Mathe;
 import ar.com.kfgodel.mathe.api.Scalar;
 import ar.com.kfgodel.mathe.api.ScalarMutabilityType;
+import ar.com.kfgodel.nary.api.Nary;
+import ar.com.kfgodel.nary.impl.NaryFromNative;
 import org.junit.runner.RunWith;
 
 import static ar.com.kfgodel.mathe.api.Mathe.scalar;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
 
 /**
  * This type verifies the behavior an scalar value
@@ -44,7 +47,33 @@ public class ScalarTest extends JavaSpec<MatheTestContext> {
         it("is immutable", ()->{
           assertThat(context().scalar().mutability()).isEqualTo(ScalarMutabilityType.IMMUTABLE);
         });
+
+        it("can also be created from a number",()->{
+            assertThat(Mathe.scalar(Integer.valueOf(67))).isEqualTo(scalar(67.0));
+        });
+
+        describe("included in a nary", () -> {
+          it("accepts a nary of numbers",()->{
+            Nary<Double> nary = NaryFromNative.of(34.0);
+            assertThat(scalar(nary)).isEqualTo(scalar(34.0));
+          });
+          it("throws an error if the stream contains less than 1 number",()->{
+            Nary<Number> nary = NaryFromNative.empty();
+            try{
+              scalar(nary);
+              failBecauseExceptionWasNotThrown(IllegalArgumentException.class);
+            }catch (IllegalArgumentException e){
+              assertThat(e).hasMessage("Insufficient numbers in the nary to create scalar. Expected 1, got: 0");
+            }
+          });
+          it("ignores the additional numbers if more than 1 passed",()->{
+            Nary<Integer> nary = NaryFromNative.of(1, 2, 3);
+            assertThat(scalar(nary)).isEqualTo(scalar(1));
+          });
+        });
+
       });
+      
 
       describe("when created from a generator function", ()->{
         Variable<Double> modifiableValue = Variable.of(1.0);

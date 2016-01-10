@@ -16,4 +16,5 @@ public interface MatheTestContext extends TestContext {
 
   BidiVector vector();
   void vector(Supplier<BidiVector> vector);
+
 }
