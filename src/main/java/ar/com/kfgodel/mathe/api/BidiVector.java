@@ -77,4 +77,29 @@ public interface BidiVector extends Supplier<BidiVector>, Value {
    * Inverts the sign of the y component
    */
   BidiVector invertY();
+
+  /**
+   * Generates a new vector with each component multiplied by the given scalar
+   * @param scalar The multiplication factor
+   * @return The result vector
+   */
+  BidiVector scalarProduct(Scalar scalar);
+
+  /**
+   * Generates a vector with the integer value of each component
+   * @return The integered vector
+   */
+  BidiVector integered();
+
+  /**
+   * Inverts both components sign
+   */
+  BidiVector invert();
+
+  /**
+   * Rotates this vector counter-clockwise the amount of given degrees
+   * @param degrees The amount of degrees to rotate
+   * @return The resulting vector
+   */
+  BidiVector rotate(double degrees);
 }

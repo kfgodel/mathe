@@ -2,7 +2,9 @@ package ar.com.kfgodel.mathe;
 
 import ar.com.dgarcia.javaspec.api.JavaSpec;
 import ar.com.dgarcia.javaspec.api.JavaSpecRunner;
+import ar.com.kfgodel.mathe.api.BidiVector;
 import ar.com.kfgodel.mathe.api.ScalarMutabilityType;
+import org.assertj.core.data.Offset;
 import org.junit.runner.RunWith;
 
 import static ar.com.kfgodel.mathe.api.Mathe.*;
@@ -101,6 +103,13 @@ public class BidiVectorTest extends JavaSpec<MatheTestContext> {
         });
       });
 
+      describe("scalar product", () -> {
+        it("multiplies each component by a scalar",()->{
+          assertThat(context().vector().scalarProduct(scalar(3.0))).isEqualTo(vector(3.0, 21.0));
+        });   
+      });
+
+
       describe("invertion", () -> {
         it("changes the x sign when called to invertX()",()->{
             assertThat(context().vector().invertX()).isEqualTo(vector(-1.0, 7.0));
@@ -108,6 +117,23 @@ public class BidiVectorTest extends JavaSpec<MatheTestContext> {
         it("changes the y sign when called to invertY()",()->{
           assertThat(context().vector().invertY()).isEqualTo(vector(1.0, -7.0));
         });   
+        it("changes both components when invert() called",()->{
+          assertThat(context().vector().invert()).isEqualTo(vector(-1.0, -7.0));
+        });   
+      });
+
+      describe("integerization", () -> {
+        it("converts each component to an integer value",()->{
+          assertThat(vector(1.2, -3.5).integered()).isEqualTo(vector(1.0, -3.0));
+        });   
+      });
+
+      describe("rotation", () -> {
+        it("rotates the vector components on the 2d space",()->{
+          BidiVector rotated = vector(1.0, 0.0).rotate(90);
+          assertThat(rotated.x().asDouble()).isEqualTo(0.0, Offset.offset(0.00000001));
+          assertThat(rotated.y().asDouble()).isEqualTo(1.0);
+        });
       });
 
 

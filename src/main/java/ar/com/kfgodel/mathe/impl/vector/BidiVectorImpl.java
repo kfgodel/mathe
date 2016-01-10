@@ -60,6 +60,32 @@ public class BidiVectorImpl implements BidiVector {
     return vector(firstComponent(), secondComponent().invert());
   }
 
+  @Override
+  public BidiVector scalarProduct(Scalar scalar) {
+    return vector(firstComponent().multiply(scalar), secondComponent().multiply(scalar));
+  }
+
+  @Override
+  public BidiVector integered() {
+    return vector(firstComponent().integered(), secondComponent().integered());
+  }
+
+  @Override
+  public BidiVector invert() {
+    return vector(firstComponent().invert(), secondComponent().invert());
+  }
+
+  @Override
+  public BidiVector rotate(double degrees) {
+    double angleInRadians = Math.toRadians(degrees);
+    double cos = Math.cos(angleInRadians);
+    double sin = Math.sin(angleInRadians);
+    return vector(
+      firstComponent().combiningMutabilityWith(secondComponent(), (x, y)-> x * cos - y * sin),
+      firstComponent().combiningMutabilityWith(secondComponent(), (x, y)-> x * sin + y * cos)
+    );
+  }
+
   /**
    * Combines this vector with the one given, applying a scalar operation to each component pair
    * @param operation The scalar operation to apply in each of the vector's component

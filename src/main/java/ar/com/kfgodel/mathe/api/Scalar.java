@@ -82,4 +82,9 @@ public interface Scalar extends DoubleSupplier, Supplier<Scalar>, Value {
     return this.mutability().combinedWith(ScalarMutabilityType.IMMUTABLE)
       .generate(()-> -asDouble());
   }
+
+  default Scalar integered(){
+    return this.mutability().combinedWith(ScalarMutabilityType.IMMUTABLE)
+      .generate(()-> (int)asDouble());
+  }
 }

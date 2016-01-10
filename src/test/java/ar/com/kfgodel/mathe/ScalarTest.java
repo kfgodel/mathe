@@ -127,6 +127,13 @@ public class ScalarTest extends JavaSpec<MatheTestContext> {
         });   
       });
 
+      describe("integerization", () -> {
+        it("converts the value to an integer",()->{
+          assertThat(scalar(1.99).integered()).isEqualTo(scalar(1.0));
+        });   
+      });
+
+
     });
   }
 }
