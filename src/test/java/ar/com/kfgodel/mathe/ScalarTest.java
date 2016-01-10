@@ -27,6 +27,10 @@ public class ScalarTest extends JavaSpec<MatheTestContext> {
         it("has a double value equal to the original", ()->{
           assertThat(context().scalar().asDouble()).isEqualTo(2.0);
         });
+        
+        it("has a float accessor to the value",()->{
+          assertThat(context().scalar().asFloat()).isEqualTo(2.0f);
+        });   
 
         it("its value doesn't change over time", ()->{
           assertThat(context().scalar().asDouble()).isEqualTo(2.0);
@@ -80,6 +84,16 @@ public class ScalarTest extends JavaSpec<MatheTestContext> {
         });
       });
 
+      describe("knwon objects", () -> {
+        it("is zero",()->{
+            assertThat(Mathe.ZERO_SCALAR).isEqualTo(scalar(0.0));
+        });   
+        it("is unity",()->{
+          assertThat(Mathe.UNITY_SCALAR).isEqualTo(scalar(1.0));
+        });   
+      });
+
+
       describe("as a functional supplier", ()->{
         it("returns its double value when used as a DoubleSupplier", ()->{
           assertThat(scalar(1.0).getAsDouble()).isEqualTo(1.0);
@@ -131,6 +145,54 @@ public class ScalarTest extends JavaSpec<MatheTestContext> {
         it("converts the value to an integer",()->{
           assertThat(scalar(1.99).integered()).isEqualTo(scalar(1.0));
         });   
+      });
+
+      describe("comparators", () -> {
+        describe("isLessThan", () -> {
+          it("is true if value is less than other scalar",()->{
+            assertThat(scalar(1.0).isLessThan(scalar(1.1))).isTrue();
+          }); 
+          it("is false if value is equal or greater than other value",()->{
+            assertThat(scalar(1.0).isLessThan(scalar(1.0))).isFalse();
+            assertThat(scalar(1.0).isLessThan(scalar(0.9))).isFalse();
+          });
+        });
+        describe("isLessOrEqualTo", () -> {
+          it("is true if value is less or equal to other scalar",()->{
+            assertThat(scalar(1.0).isLessOrEqualTo(scalar(1.1))).isTrue();
+            assertThat(scalar(1.0).isLessOrEqualTo(scalar(1.0))).isTrue();
+          });
+          it("is false if value is greater than other value",()->{
+            assertThat(scalar(1.0).isLessOrEqualTo(scalar(0.9))).isFalse();
+          });
+        });
+        describe("isEqualTo", () -> {
+          it("is true if value is equal to other scalar",()->{
+            assertThat(scalar(1.0).isEqualTo(scalar(1.0))).isTrue();
+          });
+          it("is false if value is less or greater than other value",()->{
+            assertThat(scalar(1.0).isEqualTo(scalar(1.1))).isFalse();
+            assertThat(scalar(1.0).isEqualTo(scalar(0.9))).isFalse();
+          });
+        });
+        describe("isGreaterOrEqualTo", () -> {
+          it("is true if value is greater or equal to other scalar",()->{
+            assertThat(scalar(1.0).isGreaterOrEqualTo(scalar(0.9))).isTrue();
+            assertThat(scalar(1.0).isGreaterOrEqualTo(scalar(1.0))).isTrue();
+          });
+          it("is false if value is less than other value",()->{
+            assertThat(scalar(1.0).isGreaterOrEqualTo(scalar(1.1))).isFalse();
+          });
+        });
+        describe("isGreaterThan", () -> {
+          it("is true if value is greater than other scalar",()->{
+            assertThat(scalar(1.0).isGreaterThan(scalar(0.9))).isTrue();
+          });
+          it("is false if value is equal or less than other value",()->{
+            assertThat(scalar(1.0).isGreaterThan(scalar(1.0))).isFalse();
+            assertThat(scalar(1.0).isGreaterThan(scalar(1.1))).isFalse();
+          });
+        });
       });
 
 

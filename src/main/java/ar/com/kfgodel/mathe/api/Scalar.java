@@ -83,8 +83,52 @@ public interface Scalar extends DoubleSupplier, Supplier<Scalar>, Value {
       .generate(()-> -asDouble());
   }
 
+  /**
+   * Generates a new scalar with the value converted to an integer
+   */
   default Scalar integered(){
     return this.mutability().combinedWith(ScalarMutabilityType.IMMUTABLE)
       .generate(()-> (int)asDouble());
   }
+
+  /**
+   * @return The value as float (casted to float)
+   */
+  default float asFloat(){
+    return (float) asDouble();
+  }
+
+  /**
+   * Compares this scalar to the given and returns true if this is less
+   */
+  default boolean isLessThan(Scalar other){
+   return asDouble() < other.asDouble();
+  }
+  /**
+   * Compares this scalar to the given and returns true if this is less or equal
+   */
+  default boolean isLessOrEqualTo(Scalar other){
+    return asDouble() <= other.asDouble();
+  }
+  /**
+   * Compares this scalar to the given and returns true if this is greater or equal
+   */
+  default boolean isGreaterOrEqualTo(Scalar other){
+   return asDouble() >= other.asDouble();
+  }
+
+  /**
+   * Compares this scalar to the given and returns true if this is greater or equal
+   */
+  default boolean isGreaterThan(Scalar other){
+    return asDouble() > other.asDouble();
+  }
+
+  /**
+   * Compares this scalar to the given and returns true if this is greater or equal
+   */
+  default boolean isEqualTo(Scalar other){
+    return asDouble() == other.asDouble();
+  }
+
 }

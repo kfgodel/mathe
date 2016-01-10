@@ -15,7 +15,7 @@ public abstract class ScalarSupport implements Scalar {
       return true;
     }
     if(obj instanceof Scalar){
-      return this.asDouble() == ((Scalar) obj).asDouble();
+      return this.isEqualTo((Scalar) obj);
     }
     return false;
   }

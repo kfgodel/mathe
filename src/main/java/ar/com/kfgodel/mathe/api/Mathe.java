@@ -12,6 +12,14 @@ import java.util.function.DoubleSupplier;
  * Created by tenpines on 03/01/16.
  */
 public interface Mathe {
+
+  Scalar ZERO_SCALAR = scalar(0.0);
+  Scalar UNITY_SCALAR = scalar(1.0);
+
+  BidiVector ZERO_VECTOR = vector(ZERO_SCALAR, ZERO_SCALAR);
+  BidiVector X_VECTOR = vector(UNITY_SCALAR, ZERO_SCALAR);
+  BidiVector Y_VECTOR = vector(ZERO_SCALAR, UNITY_SCALAR);
+
   /**
    * Creates a scalar value with the given constant value
    * @param value The value for the created scalar
