@@ -1,5 +1,7 @@
 package ar.com.kfgodel.mathe.api;
 
+import ar.com.kfgodel.nary.api.Nary;
+
 import java.util.function.Supplier;
 
 /**
@@ -107,4 +109,10 @@ public interface BidiVector extends Supplier<BidiVector>, Value {
    * Generates a new vector with the result of dividing each component by the given divisor
    */
   BidiVector divide(Scalar divisor);
+
+  /**
+   * @return The scalar components of this instance, one per dimension.
+   * For vectors it's a nary with two elements, one for each component
+   */
+  Nary<Scalar> components();
 }

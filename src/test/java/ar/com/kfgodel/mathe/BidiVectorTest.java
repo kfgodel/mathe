@@ -160,6 +160,20 @@ public class BidiVectorTest extends JavaSpec<MatheTestContext> {
         });
       });
 
+      describe("components", () -> {
+        it("has 2 elements",()->{
+            assertThat(context().vector().components().count()).isEqualTo(2);
+        }); 
+        
+        it("has the first component as first element",()->{
+          assertThat(context().vector().components().findFirst().get()).isSameAs(context().vector().firstComponent());
+        }); 
+        
+        it("has the second component as last",()->{
+          assertThat(context().vector().components().findLast().get()).isSameAs(context().vector().secondComponent());
+        });
+      });
+
 
     });
   }

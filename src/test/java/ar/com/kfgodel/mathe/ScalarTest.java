@@ -250,6 +250,16 @@ public class ScalarTest extends JavaSpec<MatheTestContext> {
         });
       });
 
+      describe("components", () -> {
+        it("has one dimension",()->{
+          assertThat(scalar(6.0).components().count()).isEqualTo(1);
+        }); 
+        it("is the nary of itself",()->{
+          Scalar scalar = scalar(6.0);
+          assertThat(scalar.components().get()).isSameAs(scalar);
+        });   
+      });
+
 
     });
   }

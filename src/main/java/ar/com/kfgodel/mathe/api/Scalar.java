@@ -1,5 +1,8 @@
 package ar.com.kfgodel.mathe.api;
 
+import ar.com.kfgodel.nary.api.Nary;
+import ar.com.kfgodel.nary.impl.NaryFromNative;
+
 import java.util.function.DoubleBinaryOperator;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
@@ -219,4 +222,11 @@ public interface Scalar extends DoubleSupplier, Supplier<Scalar>, Value {
     return isGreaterThan(scalar(otherValue));
   }
 
+  /**
+   * @return The scalar components of this instance, one per dimension.
+   * For scalars it's the nary of itself
+   */
+  default Nary<Scalar> components(){
+    return NaryFromNative.of(this);
+  }
 }

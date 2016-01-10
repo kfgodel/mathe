@@ -3,6 +3,8 @@ package ar.com.kfgodel.mathe.impl.vector;
 import ar.com.kfgodel.mathe.api.BidiVector;
 import ar.com.kfgodel.mathe.api.Scalar;
 import ar.com.kfgodel.mathe.api.ScalarMutabilityType;
+import ar.com.kfgodel.nary.api.Nary;
+import ar.com.kfgodel.nary.impl.NaryFromNative;
 
 import java.util.Objects;
 import java.util.function.BinaryOperator;
@@ -68,6 +70,11 @@ public class BidiVectorImpl implements BidiVector {
   @Override
   public BidiVector divide(Scalar divisor) {
     return applyingToEachComponent(Scalar::divide, divisor);
+  }
+
+  @Override
+  public Nary<Scalar> components() {
+    return NaryFromNative.of(firstComponent(), secondComponent());
   }
 
 
