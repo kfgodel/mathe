@@ -10,6 +10,10 @@ import ar.com.kfgodel.nary.api.Nary;
 import ar.com.kfgodel.nary.impl.NaryFromNative;
 import org.junit.runner.RunWith;
 
+import java.util.function.DoubleSupplier;
+import java.util.function.IntSupplier;
+import java.util.function.Supplier;
+
 import static ar.com.kfgodel.mathe.api.Mathe.scalar;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
@@ -24,19 +28,30 @@ public class ScalarTest extends JavaSpec<MatheTestContext> {
   @Override
   public void define() {
     describe("a scalar value", ()->{
-      describe("when created from a double", ()->{
-        context().scalar(()-> scalar(2.0));
+
+      describe("structure", () -> {
+
+        context().scalar(()-> scalar(1.0));
 
         it("has a double value equal to the original", ()->{
-          assertThat(context().scalar().asDouble()).isEqualTo(2.0);
+          assertThat(context().scalar().asDouble()).isEqualTo(1.0);
         });
-        
+
         it("has a float accessor to the value",()->{
-          assertThat(context().scalar().asFloat()).isEqualTo(2.0f);
+          assertThat(context().scalar().asFloat()).isEqualTo(1.0f);
         });
 
         it("has an int accessor to the value",()->{
-          assertThat(context().scalar().asInt()).isEqualTo(2);
+          assertThat(context().scalar().asInt()).isEqualTo(1);
+        });
+      });
+
+
+      describe("when created from a double", ()->{
+        context().scalar(()-> scalar(2.0));
+
+        it("can also be created from a number",()->{
+          assertThat(Mathe.scalar(Integer.valueOf(67))).isEqualTo(scalar(67.0));
         });
 
         it("its value doesn't change over time", ()->{
@@ -46,10 +61,6 @@ public class ScalarTest extends JavaSpec<MatheTestContext> {
 
         it("is immutable", ()->{
           assertThat(context().scalar().mutability()).isEqualTo(ScalarMutabilityType.IMMUTABLE);
-        });
-
-        it("can also be created from a number",()->{
-            assertThat(Mathe.scalar(Integer.valueOf(67))).isEqualTo(scalar(67.0));
         });
 
         describe("included in a nary", () -> {
@@ -287,6 +298,29 @@ public class ScalarTest extends JavaSpec<MatheTestContext> {
           Scalar scalar = scalar(6.0);
           assertThat(scalar.components().get()).isSameAs(scalar);
         });   
+      });
+
+      describe("functional behavior", () -> {
+        it("can be used as a scalar supplier",()->{
+          Supplier<Scalar> supplier = scalar(1);
+          assertThat(supplier.get()).isEqualTo(scalar(1));
+        });
+        it("can be used as a double supplier",()->{
+          DoubleSupplier supplier = scalar(1)::asDouble;
+          assertThat(supplier.getAsDouble()).isEqualTo(1);
+        });
+        it("can be used as a Double supplier",()->{
+          Supplier<Double> supplier = scalar(1)::asDouble;
+          assertThat(supplier.get()).isEqualTo(1);
+        });
+        it("can be used as a float supplier",()->{
+          Supplier<Float> supplier = scalar(1)::asFloat;
+          assertThat(supplier.get()).isEqualTo(1f);
+        });
+        it("can be used as an int supplier",()->{
+          IntSupplier supplier = scalar(1)::asInt;
+          assertThat(supplier.getAsInt()).isEqualTo(1);
+        });
       });
 
 
