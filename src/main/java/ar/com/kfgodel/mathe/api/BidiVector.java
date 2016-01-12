@@ -115,4 +115,21 @@ public interface BidiVector extends Supplier<BidiVector>, Value {
    * For vectors it's a nary with two elements, one for each component
    */
   Nary<Scalar> components();
+
+  /**
+   * Multiplies each component by 2, doubling this vector module
+   * @return The resulting vector
+   */
+  BidiVector doubled();
+
+  /**
+   * Divides each component by 2, reducing this module size by 2
+   * @return The resulting vector
+   */
+  BidiVector halved();
+
+  /**
+   * @return The vector that represents the middle point between this vector and the origin
+   */
+  BidiVector center();
 }

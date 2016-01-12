@@ -1,5 +1,6 @@
 package ar.com.kfgodel.mathe.api;
 
+import ar.com.kfgodel.mathe.impl.interval.IntervalImpl;
 import ar.com.kfgodel.mathe.impl.scalar.DoubleScalar;
 import ar.com.kfgodel.mathe.impl.scalar.LazyScalar;
 import ar.com.kfgodel.mathe.impl.scalar.SuppliedScalar;
@@ -126,5 +127,41 @@ public interface Mathe {
   static BidiVector vector(double firstComponent, Scalar secondComponent) {
     return vector(scalar(firstComponent), secondComponent);
   }
+
+  /**
+   * Creates an intervale with the given values.<br>
+   * @return The interval defined by the pair of scalars
+   */
+  static Interval interval(Scalar first, Scalar second){
+    Scalar lowest;
+    Scalar highest;
+    if(first.isGreaterThan(second)){
+      highest = first;
+      lowest = second;
+    }else{
+      lowest = first;
+      highest = second;
+    }
+    return IntervalImpl.create(lowest, highest);
+  }
+  /**
+   * Facility method accepting primitives
+   */
+  static Interval interval(double first, Scalar second){
+    return interval(scalar(first),second);
+  }
+  /**
+   * Facility method accepting primitives
+   */
+  static Interval interval(double first, double second){
+    return interval(scalar(first),scalar(second));
+  }
+  /**
+   * Facility method accepting primitives
+   */
+  static Interval interval(Scalar first, double second){
+    return interval(first, scalar(second));
+  }
+
 
 }

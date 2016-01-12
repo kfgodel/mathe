@@ -152,13 +152,22 @@ public class BidiVectorTest extends JavaSpec<MatheTestContext> {
       describe("scalar product", () -> {
         it("multiplies each component by a scalar",()->{
           assertThat(context().vector().scalarProduct(scalar(3.0))).isEqualTo(vector(3.0, 21.0));
+        });
+        it("does scalar product 2 when called to doubled()",()->{
+          assertThat(context().vector().doubled()).isEqualTo(vector(2.0, 14.0));
         });   
       });
 
       describe("division", () -> {
         it("is the scalar division of each component",()->{
           assertThat(context().vector().divide(scalar(2.0))).isEqualTo(vector(0.5, 3.5));
-        });   
+        });
+        it("divides by 2 when called to halved()",()->{
+          assertThat(context().vector().halved()).isEqualTo(vector(0.5, 3.5));
+        });
+        it("is same as halved() when called to center()",()->{
+          assertThat(context().vector().center()).isEqualTo(context().vector().halved());
+        });
       });
 
 

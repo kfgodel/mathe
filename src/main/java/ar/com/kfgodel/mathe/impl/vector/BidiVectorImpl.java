@@ -1,6 +1,7 @@
 package ar.com.kfgodel.mathe.impl.vector;
 
 import ar.com.kfgodel.mathe.api.BidiVector;
+import ar.com.kfgodel.mathe.api.Mathe;
 import ar.com.kfgodel.mathe.api.Scalar;
 import ar.com.kfgodel.mathe.api.ScalarMutabilityType;
 import ar.com.kfgodel.nary.api.Nary;
@@ -87,6 +88,21 @@ public class BidiVectorImpl implements BidiVector {
   @Override
   public Nary<Scalar> components() {
     return NaryFromNative.of(firstComponent(), secondComponent());
+  }
+
+  @Override
+  public BidiVector doubled() {
+    return scalarProduct(Mathe.TWO_SCALAR);
+  }
+
+  @Override
+  public BidiVector halved() {
+    return divide(Mathe.TWO_SCALAR);
+  }
+
+  @Override
+  public BidiVector center() {
+    return halved();
   }
 
 
