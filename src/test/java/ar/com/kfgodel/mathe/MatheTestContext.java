@@ -1,10 +1,7 @@
 package ar.com.kfgodel.mathe;
 
 import ar.com.dgarcia.javaspec.api.TestContext;
-import ar.com.kfgodel.mathe.api.BidiVector;
-import ar.com.kfgodel.mathe.api.Endpoint;
-import ar.com.kfgodel.mathe.api.Interval;
-import ar.com.kfgodel.mathe.api.Scalar;
+import ar.com.kfgodel.mathe.api.*;
 
 import java.util.function.Supplier;
 
@@ -21,6 +18,9 @@ public interface MatheTestContext extends TestContext {
 
   void interval(Supplier<Interval> definition);
   Interval interval();
+
+  void bidiInterval(Supplier<BidiInterval> definition);
+  BidiInterval bidiInterval();
 
   void endpoint(Supplier<Endpoint> definition);
   Endpoint endpoint();
