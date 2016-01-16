@@ -1,6 +1,6 @@
 package ar.com.kfgodel.mathe.api;
 
-import ar.com.kfgodel.mathe.impl.interval.IntervalImpl;
+import ar.com.kfgodel.mathe.impl.interval.EndpointType;
 import ar.com.kfgodel.mathe.impl.scalar.DoubleScalar;
 import ar.com.kfgodel.mathe.impl.scalar.LazyScalar;
 import ar.com.kfgodel.mathe.impl.scalar.SuppliedScalar;
@@ -18,14 +18,6 @@ import java.util.stream.Collectors;
  */
 public interface Mathe {
 
-  Scalar ZERO_SCALAR = scalar(0.0);
-  Scalar ONE_SCALAR = scalar(1.0);
-  Scalar TWO_SCALAR = scalar(2.0);
-
-  BidiVector ZERO_VECTOR = vector(ZERO_SCALAR, ZERO_SCALAR);
-  BidiVector X_VECTOR = vector(ONE_SCALAR, ZERO_SCALAR);
-  BidiVector Y_VECTOR = vector(ZERO_SCALAR, ONE_SCALAR);
-
   /**
    * Creates a scalar value with the given constant value
    * @param value The value for the created scalar
@@ -33,20 +25,6 @@ public interface Mathe {
    */
   static Scalar scalar(double value) {
     return DoubleScalar.create(value);
-  }
-
-  static Scalar scalar(Nary<? extends Number> values){
-    double value = values.findFirst()
-      .orElseThrow(()-> new IllegalArgumentException("Insufficient numbers in the nary to create scalar. Expected 1, got: 0"))
-      .doubleValue();
-    return scalar(value);
-  }
-
-  /**
-   * Facility method to create scalar out of objects
-   */
-  static Scalar scalar(Number value){
-    return scalar(value.doubleValue());
   }
 
   /**
@@ -68,6 +46,24 @@ public interface Mathe {
     return LazyScalar.create(supplier);
   }
 
+  /**
+   * Creates a scalar from a nary of numbers, takeing the first one and ignoring the rest.
+   * Fails if the nary is empty
+   * @param values The nary of numbers
+   * @return The created scalar
+   */
+  static Scalar scalar(Nary<? extends Number> values) throws IllegalArgumentException{
+    return values.findFirst()
+      .map(Mathe::scalar)
+      .orElseThrow(()-> new IllegalArgumentException("Insufficient numbers in the nary to create scalar. Expected 1, got: 0"));
+  }
+
+  /**
+   * Facility method to create scalar out of objects
+   */
+  static Scalar scalar(Number value){
+    return scalar(value.doubleValue());
+  }
 
   /**
    * Creates a bi dimensional vector based on the pair of scalars given.<br>
@@ -133,17 +129,9 @@ public interface Mathe {
    * @return The interval defined by the pair of scalars
    */
   static Interval interval(Scalar first, Scalar second){
-    Scalar lowest;
-    Scalar highest;
-    if(first.isGreaterThan(second)){
-      highest = first;
-      lowest = second;
-    }else{
-      lowest = first;
-      highest = second;
-    }
-    return IntervalImpl.create(lowest, highest);
+    return intervalInclusiveInclusive(first, second);
   }
+
   /**
    * Facility method accepting primitives
    */
@@ -163,5 +151,60 @@ public interface Mathe {
     return interval(first, scalar(second));
   }
 
+  /**
+   * Creates an closed interval (inclusive on both endpoints) from the given scalars
+   */
+  static Interval intervalInclusiveInclusive(Scalar first, Scalar second) {
+    return Interval.intervalOrdering(first, second, EndpointType.LOWEST_INCLUSIVE, EndpointType.HIGHEST_INCLUSIVE);
+  }
 
+  /**
+   * Facility method accepting primitives
+   */
+  static Interval intervalInclusiveInclusive(double first, double second) {
+    return intervalInclusiveInclusive(scalar(first), scalar(second));
+  }
+
+
+    /**
+     * Creates an closed-open interval (inclusive on the lowest endpoint, exclusive on the highest) from the given scalars
+     */
+  static Interval intervalInclusiveExclusive(Scalar first, Scalar second) {
+    return Interval.intervalOrdering(first, second, EndpointType.LOWEST_INCLUSIVE, EndpointType.HIGHEST_EXCLUSIVE);
+  }
+
+  /**
+   * Facility method accepting primitives
+   */
+  static Interval intervalInclusiveExclusive(double first, double second) {
+    return intervalInclusiveExclusive(scalar(first), scalar(second));
+  }
+
+  /**
+   * Creates an open-closed interval (exclusive on the lowest endpoint, inclusive on the highest) from the given scalars
+   */
+  static Interval intervalExclusiveInclusive(Scalar first, Scalar second) {
+    return Interval.intervalOrdering(first, second, EndpointType.LOWEST_EXCLUSIVE, EndpointType.HIGHEST_INCLUSIVE);
+  }
+
+  /**
+   * Facility method accepting primitives
+   */
+  static Interval intervalExclusiveInclusive(double first, double second) {
+    return intervalExclusiveInclusive(scalar(first), scalar(second));
+  }
+
+  /**
+   * Creates an open interval (exclusive on the lowest endpoint, exclusive on the highest) from the given scalars
+   */
+  static Interval intervalExclusiveExclusive(Scalar first, Scalar second) {
+    return Interval.intervalOrdering(first, second, EndpointType.LOWEST_EXCLUSIVE, EndpointType.HIGHEST_EXCLUSIVE);
+  }
+
+  /**
+   * Facility method accepting primitives
+   */
+  static Interval intervalExclusiveExclusive(double first, double second) {
+    return intervalExclusiveExclusive(scalar(first), scalar(second));
+  }
 }

@@ -9,6 +9,11 @@ import java.util.function.Supplier;
  * Created by tenpines on 03/01/16.
  */
 public interface BidiVector extends Supplier<BidiVector>, Value {
+
+  BidiVector ZERO = Mathe.vector(Scalar.ZERO, Scalar.ZERO);
+  BidiVector X = Mathe.vector(Scalar.ONE, Scalar.ZERO);
+  BidiVector Y = Mathe.vector(Scalar.ZERO, Scalar.ONE);
+
   /**
    * @return The first component of this vector
    */

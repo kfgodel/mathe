@@ -2,6 +2,7 @@ package ar.com.kfgodel.mathe;
 
 import ar.com.dgarcia.javaspec.api.TestContext;
 import ar.com.kfgodel.mathe.api.BidiVector;
+import ar.com.kfgodel.mathe.api.Endpoint;
 import ar.com.kfgodel.mathe.api.Interval;
 import ar.com.kfgodel.mathe.api.Scalar;
 
@@ -20,4 +21,10 @@ public interface MatheTestContext extends TestContext {
 
   void interval(Supplier<Interval> definition);
   Interval interval();
+
+  void endpoint(Supplier<Endpoint> definition);
+  Endpoint endpoint();
+
+  Boolean inclusionResult();
+  void inclusionResult(Supplier<Boolean> definition);
 }

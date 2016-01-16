@@ -1,5 +1,8 @@
 package ar.com.kfgodel.mathe.api;
 
+import ar.com.kfgodel.mathe.impl.scalar.DoubleScalar;
+import ar.com.kfgodel.mathe.impl.scalar.LazyScalar;
+import ar.com.kfgodel.mathe.impl.scalar.SuppliedScalar;
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.kfgodel.nary.impl.NaryFromNative;
 
@@ -7,15 +10,17 @@ import java.util.function.DoubleBinaryOperator;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
-import static ar.com.kfgodel.mathe.api.Mathe.TWO_SCALAR;
-import static ar.com.kfgodel.mathe.api.Mathe.scalar;
-
 /**
  * This type represents a one dimension vector (or a real number)
  * Created by tenpines on 03/01/16.
  */
 @FunctionalInterface
 public interface Scalar extends DoubleSupplier, Supplier<Scalar>, Value {
+  
+  Scalar ZERO = scalar(0.0);
+  Scalar ONE = scalar(1.0);
+  Scalar TWO = scalar(2.0);
+
   /**
    * Returns the primitive representation of this scalar current value
    * @return The current double value
@@ -155,14 +160,14 @@ public interface Scalar extends DoubleSupplier, Supplier<Scalar>, Value {
    * Divides this scalar by two, returning the result
    */
   default Scalar halved(){
-    return divide(Mathe.TWO_SCALAR);
+    return divide(TWO);
   }
 
   /**
    * Multiplies this scalar by two, getting the result
    */
   default Scalar doubled(){
-    return multiply(TWO_SCALAR);
+    return multiply(TWO);
   }
 
   /**
@@ -229,4 +234,33 @@ public interface Scalar extends DoubleSupplier, Supplier<Scalar>, Value {
   default Nary<Scalar> components(){
     return NaryFromNative.of(this);
   }
+
+  /**
+   * Creates a scalar value with the given constant value
+   * @param value The value for the created scalar
+   * @return The immutable scalar
+   */
+  static Scalar scalar(double value) {
+    return DoubleScalar.create(value);
+  }
+
+  /**
+   * Creates a scalar based on the given function, that can change its value over time
+   * @param doubleSupplier The function that defines the value of this scalar
+   * @return The variable scalar
+   */
+  static Scalar scalar(DoubleSupplier doubleSupplier) {
+    return SuppliedScalar.create(doubleSupplier);
+  }
+
+  /**
+   * Creates a scalar based on the given function result, that is executed only
+   * the first time the value is accessed
+   * @param supplier The function to get the scalar value
+   * @return The created scalar
+   */
+  static Scalar lazyScalar(DoubleSupplier supplier) {
+    return LazyScalar.create(supplier);
+  }
+
 }

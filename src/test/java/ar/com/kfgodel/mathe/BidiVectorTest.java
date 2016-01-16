@@ -3,7 +3,6 @@ package ar.com.kfgodel.mathe;
 import ar.com.dgarcia.javaspec.api.JavaSpec;
 import ar.com.dgarcia.javaspec.api.JavaSpecRunner;
 import ar.com.kfgodel.mathe.api.BidiVector;
-import ar.com.kfgodel.mathe.api.Mathe;
 import ar.com.kfgodel.mathe.api.Scalar;
 import ar.com.kfgodel.mathe.api.ScalarMutabilityType;
 import ar.com.kfgodel.nary.api.Nary;
@@ -82,15 +81,15 @@ public class BidiVectorTest extends JavaSpec<MatheTestContext> {
 
       describe("known objects", ()->{
         it("is zero",()->{
-            assertThat(Mathe.ZERO_VECTOR).isEqualTo(vector(0.0, 0.0));
+            assertThat(BidiVector.ZERO).isEqualTo(vector(0.0, 0.0));
         });
         
         it("is x",()->{
-          assertThat(Mathe.X_VECTOR).isEqualTo(vector(1.0, 0.0));
+          assertThat(BidiVector.X).isEqualTo(vector(1.0, 0.0));
         });
 
         it("is y",()->{
-          assertThat(Mathe.Y_VECTOR).isEqualTo(vector(0.0, 1.0));
+          assertThat(BidiVector.Y).isEqualTo(vector(0.0, 1.0));
         });
 
       });

@@ -1,5 +1,6 @@
 package ar.com.kfgodel.mathe.impl.interval;
 
+import ar.com.kfgodel.mathe.api.Endpoint;
 import ar.com.kfgodel.mathe.api.Interval;
 import ar.com.kfgodel.mathe.api.Mathe;
 import ar.com.kfgodel.mathe.api.Scalar;
@@ -12,10 +13,10 @@ import java.util.Objects;
  */
 public class IntervalImpl implements Interval {
 
-  private Scalar lowest;
-  private Scalar highest;
+  private Endpoint lowest;
+  private Endpoint highest;
 
-  public static IntervalImpl create(Scalar lowest, Scalar highest) {
+  public static IntervalImpl create(Endpoint lowest, Endpoint highest) {
     IntervalImpl interval = new IntervalImpl();
     interval.lowest = lowest;
     interval.highest = highest;
@@ -23,18 +24,18 @@ public class IntervalImpl implements Interval {
   }
 
   @Override
-  public Scalar lowestEndpoint() {
+  public Endpoint lowestEndpoint() {
     return lowest;
   }
 
   @Override
-  public Scalar highestEndpoint() {
+  public Endpoint highestEndpoint() {
     return highest;
   }
 
   @Override
   public boolean contains(Scalar other) {
-    return lowest.isLessOrEqualTo(other) && highest.isGreaterOrEqualTo(other);
+    return lowest.includes(other) && highest.includes(other);
   }
 
   @Override
@@ -62,11 +63,9 @@ public class IntervalImpl implements Interval {
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
-    builder.append("[");
     builder.append(this.lowest);
     builder.append("; ");
     builder.append(this.highest);
-    builder.append("]");
     return builder.toString();
   }
 }

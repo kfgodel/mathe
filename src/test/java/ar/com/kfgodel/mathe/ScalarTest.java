@@ -130,10 +130,10 @@ public class ScalarTest extends JavaSpec<MatheTestContext> {
 
       describe("knwon objects", () -> {
         it("is zero",()->{
-            assertThat(Mathe.ZERO_SCALAR).isEqualTo(scalar(0.0));
+            assertThat(Scalar.ZERO).isEqualTo(scalar(0.0));
         });   
         it("is unity",()->{
-          assertThat(Mathe.ONE_SCALAR).isEqualTo(scalar(1.0));
+          assertThat(Scalar.ONE).isEqualTo(scalar(1.0));
         });   
       });
 
