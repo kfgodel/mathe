@@ -7,7 +7,6 @@ import ar.com.kfgodel.mathe.api.Mathe;
 import ar.com.kfgodel.mathe.api.Scalar;
 import ar.com.kfgodel.mathe.api.ScalarMutabilityType;
 import ar.com.kfgodel.nary.api.Nary;
-import ar.com.kfgodel.nary.impl.NaryFromNative;
 import org.junit.runner.RunWith;
 
 import java.util.function.DoubleSupplier;
@@ -65,11 +64,11 @@ public class ScalarTest extends JavaSpec<MatheTestContext> {
 
         describe("included in a nary", () -> {
           it("accepts a nary of numbers",()->{
-            Nary<Double> nary = NaryFromNative.of(34.0);
+            Nary<Double> nary = Nary.of(34.0);
             assertThat(scalar(nary)).isEqualTo(scalar(34.0));
           });
           it("throws an error if the stream contains less than 1 number",()->{
-            Nary<Number> nary = NaryFromNative.empty();
+            Nary<Number> nary = Nary.empty();
             try{
               scalar(nary);
               failBecauseExceptionWasNotThrown(IllegalArgumentException.class);
@@ -78,7 +77,7 @@ public class ScalarTest extends JavaSpec<MatheTestContext> {
             }
           });
           it("ignores the additional numbers if more than 1 passed",()->{
-            Nary<Integer> nary = NaryFromNative.of(1, 2, 3);
+            Nary<Integer> nary = Nary.of(1, 2, 3);
             assertThat(scalar(nary)).isEqualTo(scalar(1));
           });
         });

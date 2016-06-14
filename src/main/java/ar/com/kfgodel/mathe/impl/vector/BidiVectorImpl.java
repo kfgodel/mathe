@@ -4,7 +4,6 @@ import ar.com.kfgodel.mathe.api.BidiVector;
 import ar.com.kfgodel.mathe.api.Scalar;
 import ar.com.kfgodel.mathe.api.ScalarMutabilityType;
 import ar.com.kfgodel.nary.api.Nary;
-import ar.com.kfgodel.nary.impl.NaryFromNative;
 
 import java.util.Objects;
 import java.util.function.BinaryOperator;
@@ -86,7 +85,7 @@ public class BidiVectorImpl implements BidiVector {
 
   @Override
   public Nary<Scalar> components() {
-    return NaryFromNative.of(firstComponent(), secondComponent());
+    return Nary.of(firstComponent(), secondComponent());
   }
 
   @Override
@@ -149,7 +148,7 @@ public class BidiVectorImpl implements BidiVector {
   }
 
   private BidiVector applyingToEachComponent(Function<Scalar, Scalar> operation) {
-    return vector(NaryFromNative.create(components().map(operation)));
+    return vector(Nary.create(components().map(operation)));
   }
 
   private BidiVector combiningEachComponentWith(Scalar other, BinaryOperator<Scalar> operation) {

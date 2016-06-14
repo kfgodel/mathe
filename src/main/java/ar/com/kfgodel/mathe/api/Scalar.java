@@ -4,7 +4,6 @@ import ar.com.kfgodel.mathe.impl.scalar.DoubleScalar;
 import ar.com.kfgodel.mathe.impl.scalar.LazyScalar;
 import ar.com.kfgodel.mathe.impl.scalar.SuppliedScalar;
 import ar.com.kfgodel.nary.api.Nary;
-import ar.com.kfgodel.nary.impl.NaryFromNative;
 
 import java.util.function.DoubleBinaryOperator;
 import java.util.function.DoubleSupplier;
@@ -57,7 +56,7 @@ public interface Scalar extends DoubleSupplier, Supplier<Scalar>, Value {
    */
   default ScalarMutabilityType mutability(){
     return ScalarMutabilityType.MUTABLE;
-  };
+  }
 
   /**
    * Sums the value of this scalar to the one given.<br>
@@ -232,7 +231,7 @@ public interface Scalar extends DoubleSupplier, Supplier<Scalar>, Value {
    * For scalars it's the nary of itself
    */
   default Nary<Scalar> components(){
-    return NaryFromNative.of(this);
+    return Nary.of(this);
   }
 
   /**

@@ -6,7 +6,6 @@ import ar.com.kfgodel.mathe.impl.scalar.LazyScalar;
 import ar.com.kfgodel.mathe.impl.scalar.SuppliedScalar;
 import ar.com.kfgodel.mathe.impl.vector.BidiVectorImpl;
 import ar.com.kfgodel.nary.api.Nary;
-import ar.com.kfgodel.nary.impl.NaryFromNative;
 
 import java.util.List;
 import java.util.function.DoubleSupplier;
@@ -47,7 +46,7 @@ public interface Mathe {
   }
 
   /**
-   * Creates a scalar from a nary of numbers, takeing the first one and ignoring the rest.
+   * Creates a scalar from a nary of numbers, taking the first one and ignoring the rest.
    * Fails if the nary is empty
    * @param values The nary of numbers
    * @return The created scalar
@@ -97,7 +96,7 @@ public interface Mathe {
    * Facility method to create the vector out of a stream of numbers
    */
   static BidiVector vectorFrom(Nary<? extends  Number> components) {
-    Nary<Scalar> scalarNary = NaryFromNative.create(components.map(Mathe::scalar));
+    Nary<Scalar> scalarNary = Nary.create(components.map(Mathe::scalar));
     return vector(scalarNary);
   }
 
@@ -125,7 +124,7 @@ public interface Mathe {
   }
 
   /**
-   * Creates an intervale with the given values.<br>
+   * Creates an interval with the given values.<br>
    * @return The interval defined by the pair of scalars
    */
   static Interval interval(Scalar first, Scalar second){

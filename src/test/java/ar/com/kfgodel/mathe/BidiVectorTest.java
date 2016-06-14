@@ -6,7 +6,6 @@ import ar.com.kfgodel.mathe.api.BidiVector;
 import ar.com.kfgodel.mathe.api.Scalar;
 import ar.com.kfgodel.mathe.api.ScalarMutabilityType;
 import ar.com.kfgodel.nary.api.Nary;
-import ar.com.kfgodel.nary.impl.NaryFromNative;
 import org.assertj.core.data.Offset;
 import org.junit.runner.RunWith;
 
@@ -33,11 +32,11 @@ public class BidiVectorTest extends JavaSpec<MatheTestContext> {
 
       describe("created from a nary", ()->{
         it("accepts a nary of scalars",()->{
-          Nary<Scalar> nary = NaryFromNative.of(scalar(1.0), scalar(2.0));
+          Nary<Scalar> nary = Nary.of(scalar(1.0), scalar(2.0));
           assertThat(vector(nary)).isEqualTo(vector(1.0, 2.0));
         });
         it("throws an error if the stream contains less than 2 scalars",()->{
-          Nary<Scalar> nary = NaryFromNative.of(scalar(1));
+          Nary<Scalar> nary = Nary.of(scalar(1));
           try{
             vector(nary);
             failBecauseExceptionWasNotThrown(IllegalArgumentException.class);
@@ -46,11 +45,11 @@ public class BidiVectorTest extends JavaSpec<MatheTestContext> {
           }
         });
         it("ignores the additional scalars if more than 2 passed",()->{
-          Nary<Scalar> nary = NaryFromNative.of(scalar(1.0), scalar(2.0), scalar(3.0));
+          Nary<Scalar> nary = Nary.of(scalar(1.0), scalar(2.0), scalar(3.0));
           assertThat(vector(nary)).isEqualTo(vector(1.0, 2.0));
         });   
         it("also accepts a nary of numbers",()->{
-          Nary<Integer> nary = NaryFromNative.of(1, 2);
+          Nary<Integer> nary = Nary.of(1, 2);
           assertThat(vectorFrom(nary)).isEqualTo(vector(1.0, 2.0));
         });
       });
